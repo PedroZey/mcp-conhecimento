@@ -13,11 +13,30 @@
   "scripts": {
     "build": "tsc",
     "test": "node --import tsx --test test/*.test.ts",
+    "prepublishOnly": "npm run build",
     "start": "node dist/index.js"
   },
   "engines": {
     "node": ">=18"
   },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "claude-code",
+    "akita",
+    "knowledge-base",
+    "engenharia"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PedroZey/mcp-conhecimento.git"
+  },
+  "homepage": "https://github.com/PedroZey/mcp-conhecimento#readme",
+  "bugs": {
+    "url": "https://github.com/PedroZey/mcp-conhecimento/issues"
+  },
+  "author": "PedroZey",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
