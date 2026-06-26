@@ -1,0 +1,17 @@
+{
+  "name": "akita",
+  "title": "Base de Conhecimento Akita",
+  "description": "Engenharia de software de senior destilada do Fabio Akita (canal @Akitando + akitaonrails.com), em formato acionável. Consulte ANTES de decisões de engenharia.",
+  "topics": [
+    { "key": "principios",      "file": "docs/principios.md",      "title": "Princípios e filosofia", "whenToUse": "Qualquer decisão de engenharia / entender a mentalidade: processo é a variável (não a IA), software nunca \"pronto\", qualidade é trade-off." },
+    { "key": "processo-ia",     "file": "docs/processo-ia.md",     "title": "Processo com IA",        "whenToUse": "Trabalhar COM agente de IA, definir CLAUDE.md, dividir tarefa: o que IA faz bem/mal, vibe coding, RAG vs contexto longo, freio humano." },
+    { "key": "escrever-codigo", "file": "docs/escrever-codigo.md", "title": "Escrever código",        "whenToUse": "Escrever, refatorar ou revisar código: Clean Code p/ leitor-IA, nomes pesquisáveis, funções/arquivos pequenos, perf, commits." },
+    { "key": "testes",          "file": "docs/testes.md",          "title": "Testes",                 "whenToUse": "Escrever ou decidir testes: TDD com IA, as 7 camadas, o que mocks NÃO pegam, F.I.R.S.T, ratio teste/código, CI ≠ integração." },
+    { "key": "arquitetura",     "file": "docs/arquitetura.md",     "title": "Arquitetura e design",   "whenToUse": "Decidir arquitetura, fronteiras, escala: modularidade, arquitetura emergente, SQLite em prod, quando NÃO abstrair." },
+    { "key": "banco-sql",       "file": "docs/banco-sql.md",       "title": "Banco e SQL",            "whenToUse": "Mexer em banco / escrever SQL / modelar: índices, SQL seguro (sem SELECT*/concat), SQLite vs Postgres, NoSQL, migrations." },
+    { "key": "git-entrega",     "file": "docs/git-entrega.md",     "title": "Git e entrega",          "whenToUse": "Commitar, configurar CI, fazer deploy: small releases, prefixos de commit, limpar histórico, 12 fatores, Heroku/Kamal, hooks." },
+    { "key": "seguranca",       "file": "docs/seguranca.md",       "title": "Segurança",              "whenToUse": "Tratar segurança: segurança como hábito a cada commit, scanners no CI, sandbox de agente, cripto na prática, senhas/2FA." },
+    { "key": "jobs",            "file": "docs/jobs.md",            "title": "Jobs e confiabilidade",  "whenToUse": "Jobs assíncronos / confiabilidade: retries, locks distribuídos, claiming atômico, idempotência, emails sem spam, safety nets." },
+    { "key": "linguagens",      "file": "docs/linguagens.md",      "title": "Linguagens e stacks",    "whenToUse": "Escolher linguagem/stack: \"sua linguagem não é especial\", compilada vs interpretada, melhor linguagem p/ LLM, portar com IA." }
+  ]
+}
