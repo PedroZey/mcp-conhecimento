@@ -1,0 +1,30 @@
+{
+  "name": "mcp-conhecimento",
+  "version": "0.1.0",
+  "description": "Servidor MCP de bases de conhecimento de engenharia (Akita e outros packs).",
+  "type": "module",
+  "bin": {
+    "mcp-conhecimento": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "packs"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --import tsx --test test/*.test.ts",
+    "start": "node dist/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
