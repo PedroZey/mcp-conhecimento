@@ -1,0 +1,8 @@
+{
+  "name": "quebrado",
+  "title": "Pack Quebrado",
+  "description": "Aponta para um doc que não existe.",
+  "topics": [
+    { "key": "fantasma", "file": "docs/fantasma.md", "title": "Fantasma", "whenToUse": "Nunca." }
+  ]
+}

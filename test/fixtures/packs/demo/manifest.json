@@ -1,0 +1,9 @@
+{
+  "name": "demo",
+  "title": "Pack Demo",
+  "description": "Pack de teste.",
+  "topics": [
+    { "key": "alpha", "file": "docs/alpha.md", "title": "Alpha", "whenToUse": "Quando precisar de alpha." },
+    { "key": "beta",  "file": "docs/beta.md",  "title": "Beta",  "whenToUse": "Quando precisar de beta." }
+  ]
+}
