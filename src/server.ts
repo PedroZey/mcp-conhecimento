@@ -1,6 +1,7 @@
+import { readFileSync } from "node:fs";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { type Pack, readDoc, renderIndex } from "./pack.js";
+import { type Pack, readDoc, renderIndex, renderPrompt } from "./pack.js";
 
 export function topicKeys(pack: Pack): [string, ...string[]] {
   const keys = pack.topics.map((t) => t.key);
@@ -32,7 +33,10 @@ function guideDescription(pack: Pack): string {
 }
 
 export function buildServer(pack: Pack): McpServer {
-  const server = new McpServer({ name: `mcp-conhecimento-${pack.name}`, version: "0.1.0" });
+  const server = new McpServer(
+    { name: `mcp-conhecimento-${pack.name}`, version: "0.1.0" },
+    pack.instructions ? { instructions: pack.instructions } : undefined,
+  );
 
   server.registerTool(
     `${pack.name}_index`,
@@ -52,6 +56,29 @@ export function buildServer(pack: Pack): McpServer {
     },
     async ({ topic }) => ({ content: [{ type: "text", text: handleGuide(pack, topic) }] }),
   );
+
+  for (const p of pack.prompts) {
+    const argsSchema = Object.fromEntries(
+      p.arguments.map((a) => [a.name, a.required ? z.string() : z.string().optional()]),
+    );
+    server.registerPrompt(
+      p.name,
+      { title: p.title, description: p.description, argsSchema },
+      async (args: Record<string, string | undefined> = {}) => {
+        const filled = Object.fromEntries(
+          p.arguments.map((a) => [a.name, args[a.name] ?? ""]),
+        );
+        return {
+          messages: [
+            {
+              role: "user",
+              content: { type: "text", text: renderPrompt(readFileSync(p.path, "utf8"), filled) },
+            },
+          ],
+        };
+      },
+    );
+  }
 
   return server;
 }
