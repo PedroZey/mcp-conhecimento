@@ -102,3 +102,9 @@ export function renderIndex(pack: Pack): string {
     .join("\n");
   return `${header}\n${rows}`;
 }
+
+export function renderPrompt(template: string, args: Record<string, string>): string {
+  return template.replace(/\{\{(\w+)\}\}/g, (match, name) =>
+    name in args ? args[name] : match,
+  );
+}

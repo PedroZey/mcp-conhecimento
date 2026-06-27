@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { loadPack, readDoc, renderIndex } from "../src/pack.ts";
+import { loadPack, readDoc, renderIndex, renderPrompt } from "../src/pack.ts";
 
 const FIXTURES = join(dirname(fileURLToPath(import.meta.url)), "fixtures", "packs");
 
@@ -37,4 +37,20 @@ test("renderIndex: contém todos os topics", () => {
   assert.match(idx, /alpha/);
   assert.match(idx, /beta/);
   assert.match(idx, /Quando precisar de alpha/);
+});
+
+test("renderPrompt: substitui arg presente", () => {
+  assert.equal(renderPrompt("Olá, {{nome}}!", { nome: "Akita" }), "Olá, Akita!");
+});
+
+test("renderPrompt: arg vazio vira string vazia", () => {
+  assert.equal(renderPrompt("Audite o alvo: {{path}}.", { path: "" }), "Audite o alvo: .");
+});
+
+test("renderPrompt: placeholder sem arg correspondente fica literal", () => {
+  assert.equal(renderPrompt("{{a}} e {{b}}", { a: "1" }), "1 e {{b}}");
+});
+
+test("renderPrompt: múltiplas ocorrências do mesmo arg", () => {
+  assert.equal(renderPrompt("{{x}}-{{x}}", { x: "z" }), "z-z");
 });
