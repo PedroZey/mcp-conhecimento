@@ -41,3 +41,27 @@ test("e2e: akita_index retorna a tabela", async () => {
   assert.match(text, /Quando consultar/);
   await client.close();
 });
+
+test("e2e: akita expõe instructions", async () => {
+  const client = await connect();
+  assert.match(client.getInstructions() ?? "", /akita_index/);
+  await client.close();
+});
+
+test("e2e: akita lista os 4 prompts", async () => {
+  const client = await connect();
+  const { prompts } = await client.listPrompts();
+  assert.deepEqual(
+    prompts.map((p) => p.name).sort(),
+    ["audit", "decidir", "review-diff", "setup-claude-md"],
+  );
+  await client.close();
+});
+
+test("e2e: akita getPrompt(decidir) injeta o dilema no template", async () => {
+  const client = await connect();
+  const res = await client.getPrompt({ name: "decidir", arguments: { dilema: "NoSQL ou Postgres?" } });
+  const text = (res.messages[0].content as { type: string; text: string }).text;
+  assert.match(text, /NoSQL ou Postgres\?/);
+  await client.close();
+});

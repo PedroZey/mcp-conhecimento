@@ -13,5 +13,14 @@
     { "key": "seguranca",       "file": "docs/seguranca.md",       "title": "Segurança",              "whenToUse": "Tratar segurança: segurança como hábito a cada commit, scanners no CI, sandbox de agente, cripto na prática, senhas/2FA." },
     { "key": "jobs",            "file": "docs/jobs.md",            "title": "Jobs e confiabilidade",  "whenToUse": "Jobs assíncronos / confiabilidade: retries, locks distribuídos, claiming atômico, idempotência, emails sem spam, safety nets." },
     { "key": "linguagens",      "file": "docs/linguagens.md",      "title": "Linguagens e stacks",    "whenToUse": "Escolher linguagem/stack: \"sua linguagem não é especial\", compilada vs interpretada, melhor linguagem p/ LLM, portar com IA." }
+  ],
+  "instructions": "Base de Conhecimento Akita: engenharia de software de senior, acionável. Consulte akita_index ANTES de qualquer decisão de engenharia (testes, arquitetura, SQL, segurança, deploy, jobs, escolha de stack) e depois akita_guide no tópico certo. Prompts disponíveis: setup-claude-md, audit, review-diff, decidir.",
+  "prompts": [
+    { "name": "setup-claude-md", "title": "Setup CLAUDE.md (Akita)", "description": "Cria ou enriquece o CLAUDE.md do projeto com diretrizes Akita conforme a stack.", "file": "prompts/setup-claude-md.md" },
+    { "name": "audit", "title": "Auditar projeto (Akita)", "description": "Audita o projeto (ou um caminho) contra os princípios Akita e lista desvios.", "file": "prompts/audit.md",
+      "arguments": [{ "name": "path", "description": "Caminho a auditar (vazio = projeto inteiro)", "required": false }] },
+    { "name": "review-diff", "title": "Revisar diff (Akita)", "description": "Revisa o diff atual sob a lente Akita antes do commit.", "file": "prompts/review-diff.md" },
+    { "name": "decidir", "title": "Decidir (Akita)", "description": "Recebe um dilema de engenharia e responde no estilo Akita usando os guias.", "file": "prompts/decidir.md",
+      "arguments": [{ "name": "dilema", "description": "O dilema de engenharia a decidir", "required": true }] }
   ]
 }
