@@ -151,6 +151,36 @@ chamada guide  → lê packs/<pack>/<topic.file> sob demanda → texto
 - `sync-packs.sh`: copia/atualiza os docs de `akita-engineering-base/compilados-akita/` para
   `packs/akita/docs/` com os nomes-key (transformação reexecutável).
 
+## 9b. Adendo (2026-06-26) — Transporte remoto HTTP (Coolify)
+
+Mudança de distribuição: em vez de npm/`npx` (stdio local), o servidor é **hospedado** na infra
+do usuário (dev server + Coolify) e exposto como **endpoint remoto**. Clientes adicionam como
+MCP remoto por URL, sem instalar nada.
+
+- **Transporte:** Streamable HTTP (stateless) via `StreamableHTTPServerTransport`. `POST /mcp`
+  cria server+transport por request (stateless, `sessionIdGenerator: undefined`).
+- **stdio mantido:** flag `--transport stdio|http` (default `stdio`). stdio preserva testes/e2e
+  e dev local; http é o modo de produção.
+- **Auth:** Bearer obrigatório em http. Token via env `MCP_TOKEN`. `/mcp` sem
+  `Authorization: Bearer <token>` válido → 401. Se `--transport http` e `MCP_TOKEN` ausente no
+  startup → falha (não sobe endpoint desprotegido).
+- **Health:** `GET /health` → 200, sem auth (healthcheck do Coolify).
+- **Porta:** `--port` / env `PORT` (default 3000).
+- **Empacotamento:** `Dockerfile` (multi-stage: build TS → runtime slim), `HEALTHCHECK` em
+  `/health`. Coolify builda do Dockerfile.
+- **Deploy:** executado via acesso à infra (Coolify API/token ou SSH).
+- **Cliente remoto (Claude Code):**
+  ```jsonc
+  "mcpServers": {
+    "akita": {
+      "type": "http",
+      "url": "https://<host>/mcp",
+      "headers": { "Authorization": "Bearer <MCP_TOKEN>" }
+    }
+  }
+  ```
+- **HTTP server:** `express` (+ `express.json()`); `GET`/`DELETE` em `/mcp` → 405 (stateless só usa POST).
+
 ## 10. Fora de escopo (MVP)
 
 - Busca full-text (`<pack>_search`).
