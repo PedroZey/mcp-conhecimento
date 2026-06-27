@@ -19,7 +19,8 @@ Ao conectar, o server envia **instructions** (lembrete passivo) pedindo para con
 antes de decisões de engenharia — vale para qualquer cliente, sem configuração local.
 
 O pack akita também expõe **slash-commands** (MCP prompts), que aparecem no cliente como
-`/mcp__mcp-conhecimento-akita__<nome>`:
+`/mcp__<chave>__<nome>`, onde `<chave>` é o nome que você deu ao servidor em `mcpServers`.
+Nos exemplos acima a chave é `akita`, então ficam `/mcp__akita__<nome>`:
 
 - `setup-claude-md` — cria ou enriquece o `CLAUDE.md` do projeto com diretrizes Akita.
 - `audit [path]` — audita o projeto contra os princípios Akita e lista desvios.
