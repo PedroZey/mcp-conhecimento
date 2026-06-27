@@ -156,7 +156,7 @@ export function renderIndex(pack: Pack): string {
 }
 
 export function renderPrompt(template: string, args: Record<string, string>): string {
-  return template.replace(/\{\{(\w+)\}\}/g, (match, name) =>
-    name in args ? args[name] : match,
+  return template.replace(/\{\{([\w-]+)\}\}/g, (match, name) =>
+    Object.hasOwn(args, name) ? args[name] : match,
   );
 }

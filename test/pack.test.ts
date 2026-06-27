@@ -80,3 +80,11 @@ test("loadPack: prompt sem arguments normaliza para []", () => {
 test("loadPack: template de prompt inexistente lança no load", () => {
   assert.throws(() => loadPack("promptquebrado", FIXTURES), /naoexiste|ausente|não encontrado/i);
 });
+
+test("renderPrompt: placeholder com nome de prop herdada fica literal", () => {
+  assert.equal(renderPrompt("{{constructor}} {{toString}}", {}), "{{constructor}} {{toString}}");
+});
+
+test("renderPrompt: arg com hífen é substituído", () => {
+  assert.equal(renderPrompt("v={{my-arg}}", { "my-arg": "x" }), "v=x");
+});

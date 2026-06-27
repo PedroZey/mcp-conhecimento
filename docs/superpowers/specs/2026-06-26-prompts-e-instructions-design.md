@@ -27,6 +27,7 @@ Dois mecanismos **nativos do MCP** que viajam com o deploy e valem para todo cli
    hook), mas é o lembrete mais forte que viaja pelo protocolo.
 2. **MCP prompts** (`registerPrompt`) — ações *ativas*. Viram slash-commands no cliente
    (`/mcp__mcp-conhecimento-akita__<nome>`), permitindo que o usuário enriqueça o projeto dele com
+   > Correção pós-implementação: o prefixo real vem da chave em mcpServers (ex.: akita → /mcp__akita__<nome>), não do nome interno do server.
    base no Akita sob demanda.
 
 **Não-objetivos:** hook local (fora do que o MCP entrega); documentar hook como opt-in (descartado

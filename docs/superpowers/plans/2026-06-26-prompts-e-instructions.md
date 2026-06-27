@@ -660,6 +660,7 @@ antes de decisões de engenharia — vale para qualquer cliente, sem configuraç
 
 O pack akita também expõe **slash-commands** (MCP prompts), que aparecem no cliente como
 `/mcp__mcp-conhecimento-akita__<nome>`:
+> Correção pós-implementação: o prefixo real vem da chave em mcpServers (ex.: akita → /mcp__akita__<nome>), não do nome interno do server.
 
 - `setup-claude-md` — cria ou enriquece o `CLAUDE.md` do projeto com diretrizes Akita.
 - `audit [path]` — audita o projeto contra os princípios Akita e lista desvios.

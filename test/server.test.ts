@@ -50,9 +50,13 @@ test("buildServer expõe instructions, lista e resolve prompts (in-memory)", asy
   const { prompts } = await client.listPrompts();
   assert.deepEqual(prompts.map((p) => p.name).sort(), ["greet", "ping"]);
 
+  const greet = prompts.find((p) => p.name === "greet");
+  assert.ok(greet?.arguments?.some((a) => a.name === "nome" && a.required === true));
+
   const res = await client.getPrompt({ name: "greet", arguments: { nome: "Akita" } });
   const text = (res.messages[0].content as { type: string; text: string }).text;
   assert.match(text, /Olá, Akita!/);
 
   await client.close();
+  await server.close();
 });
