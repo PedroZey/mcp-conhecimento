@@ -13,6 +13,21 @@ Tools expostos (por pack): `<pack>_index` (tabela "quando consultar o quê") e
 `akita_guide(topic)` com topic ∈ `principios, processo-ia, escrever-codigo, testes,
 arquitetura, banco-sql, git-entrega, seguranca, jobs, linguagens`.
 
+## Lembrete automático e slash-commands
+
+Ao conectar, o server envia **instructions** (lembrete passivo) pedindo para consultar a base
+antes de decisões de engenharia — vale para qualquer cliente, sem configuração local.
+
+O pack akita também expõe **slash-commands** (MCP prompts), que aparecem no cliente como
+`/mcp__mcp-conhecimento-akita__<nome>`:
+
+- `setup-claude-md` — cria ou enriquece o `CLAUDE.md` do projeto com diretrizes Akita.
+- `audit [path]` — audita o projeto contra os princípios Akita e lista desvios.
+- `review-diff` — revisa o diff atual antes do commit, sob a lente Akita.
+- `decidir <dilema>` — responde um dilema de engenharia usando os guias.
+
+Clientes que não suportam prompts MCP ainda recebem as instructions.
+
 ## Conectar num servidor remoto (recomendado)
 
 Se já há uma instância hospedada, adicione ao seu `~/.claude.json` (ou `.mcp.json` do projeto):
