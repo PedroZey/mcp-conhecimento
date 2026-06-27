@@ -1,0 +1,11 @@
+{
+  "name": "promptquebrado",
+  "title": "Prompt Quebrado",
+  "description": "Pack com prompt cujo template não existe.",
+  "topics": [
+    { "key": "alpha", "file": "docs/alpha.md", "title": "Alpha", "whenToUse": "x" }
+  ],
+  "prompts": [
+    { "name": "fantasma", "title": "Fantasma", "description": "Template ausente.", "file": "prompts/naoexiste.md" }
+  ]
+}

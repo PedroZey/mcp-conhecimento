@@ -11,12 +11,25 @@ export type Topic = {
   path: string;
 };
 
+export type PromptArg = { name: string; description: string; required: boolean };
+
+export type PromptDef = {
+  name: string;
+  title: string;
+  description: string;
+  file: string;
+  path: string;
+  arguments: PromptArg[];
+};
+
 export type Pack = {
   name: string;
   title: string;
   description: string;
   topics: Topic[];
   dir: string;
+  instructions?: string;
+  prompts: PromptDef[];
 };
 
 // packs/ fica ao lado de dist/ (build) ou de src/ (tsx) — ambos resolvem para a raiz do repo.
@@ -40,6 +53,26 @@ const ManifestSchema = z.object({
       }),
     )
     .min(1),
+  instructions: z.string().min(1).optional(),
+  prompts: z
+    .array(
+      z.object({
+        name: z.string().min(1),
+        title: z.string().min(1),
+        description: z.string().min(1),
+        file: z.string().min(1),
+        arguments: z
+          .array(
+            z.object({
+              name: z.string().min(1),
+              description: z.string().min(1),
+              required: z.boolean(),
+            }),
+          )
+          .optional(),
+      }),
+    )
+    .optional(),
 });
 
 export function loadPack(packName: string, packsRoot: string = DEFAULT_PACKS_ROOT): Pack {
@@ -77,12 +110,31 @@ export function loadPack(packName: string, packsRoot: string = DEFAULT_PACKS_ROO
     return { ...t, path };
   });
 
+  const prompts: PromptDef[] = (parsed.data.prompts ?? []).map((p) => {
+    const path = join(dir, p.file);
+    if (!existsSync(path)) {
+      throw new Error(
+        `Pack "${packName}": template do prompt "${p.name}" ausente (esperado em ${path})`,
+      );
+    }
+    return {
+      name: p.name,
+      title: p.title,
+      description: p.description,
+      file: p.file,
+      path,
+      arguments: p.arguments ?? [],
+    };
+  });
+
   return {
     name: parsed.data.name,
     title: parsed.data.title,
     description: parsed.data.description,
     topics,
     dir,
+    instructions: parsed.data.instructions,
+    prompts,
   };
 }
 

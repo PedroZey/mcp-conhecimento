@@ -54,3 +54,29 @@ test("renderPrompt: placeholder sem arg correspondente fica literal", () => {
 test("renderPrompt: múltiplas ocorrências do mesmo arg", () => {
   assert.equal(renderPrompt("{{x}}-{{x}}", { x: "z" }), "z-z");
 });
+
+test("loadPack: pack sem prompts/instructions continua válido (backward-compat)", () => {
+  const pack = loadPack("demo", FIXTURES);
+  assert.equal(pack.instructions, undefined);
+  assert.deepEqual(pack.prompts, []);
+});
+
+test("loadPack: carrega instructions e prompts", () => {
+  const pack = loadPack("comprompts", FIXTURES);
+  assert.equal(pack.instructions, "Instruções de teste do pack comprompts.");
+  assert.equal(pack.prompts.length, 2);
+  const greet = pack.prompts.find((p) => p.name === "greet")!;
+  assert.equal(greet.arguments.length, 1);
+  assert.equal(greet.arguments[0].name, "nome");
+  assert.equal(greet.arguments[0].required, true);
+});
+
+test("loadPack: prompt sem arguments normaliza para []", () => {
+  const pack = loadPack("comprompts", FIXTURES);
+  const ping = pack.prompts.find((p) => p.name === "ping")!;
+  assert.deepEqual(ping.arguments, []);
+});
+
+test("loadPack: template de prompt inexistente lança no load", () => {
+  assert.throws(() => loadPack("promptquebrado", FIXTURES), /naoexiste|ausente|não encontrado/i);
+});

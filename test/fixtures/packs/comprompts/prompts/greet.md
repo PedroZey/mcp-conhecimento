@@ -1,0 +1,1 @@
+Olá, {{nome}}! Bem-vindo.

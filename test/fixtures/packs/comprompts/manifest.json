@@ -1,0 +1,14 @@
+{
+  "name": "comprompts",
+  "title": "Pack Com Prompts",
+  "description": "Pack de teste com prompts e instructions.",
+  "instructions": "Instruções de teste do pack comprompts.",
+  "topics": [
+    { "key": "alpha", "file": "docs/alpha.md", "title": "Alpha", "whenToUse": "Quando precisar de alpha." }
+  ],
+  "prompts": [
+    { "name": "greet", "title": "Saudar", "description": "Saúda alguém.", "file": "prompts/greet.md",
+      "arguments": [{ "name": "nome", "description": "Quem saudar", "required": true }] },
+    { "name": "ping", "title": "Ping", "description": "Sem argumentos.", "file": "prompts/ping.md" }
+  ]
+}
