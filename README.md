@@ -4,25 +4,72 @@ Servidor MCP que serve bases de conhecimento de engenharia (markdown acionável)
 Claude Code e outros clients MCP. Um servidor, vários **packs** de conteúdo selecionáveis por
 `--pack`. Primeiro pack: **Akita** (engenharia destilada do Fabio Akita).
 
-## Instalação no Claude Code
+Dois modos de transporte:
+- **http** (produção) — hospedado na sua infra; clientes conectam por URL, sem instalar nada.
+- **stdio** (dev local) — o client lança o processo.
 
-Adicione ao seu `~/.claude.json` (ou `.mcp.json` do projeto):
+Tools expostos (por pack): `<pack>_index` (tabela "quando consultar o quê") e
+`<pack>_guide(topic)` (guia completo de um tópico). Para akita: `akita_index` /
+`akita_guide(topic)` com topic ∈ `principios, processo-ia, escrever-codigo, testes,
+arquitetura, banco-sql, git-entrega, seguranca, jobs, linguagens`.
+
+## Conectar num servidor remoto (recomendado)
+
+Se já há uma instância hospedada, adicione ao seu `~/.claude.json` (ou `.mcp.json` do projeto):
 
 ```jsonc
 {
   "mcpServers": {
     "akita": {
-      "command": "npx",
-      "args": ["-y", "mcp-conhecimento", "--pack=akita"]
+      "type": "http",
+      "url": "https://<host>/mcp",
+      "headers": { "Authorization": "Bearer <MCP_TOKEN>" }
     }
   }
 }
 ```
 
-Reinicie o Claude Code. O agente ganha dois tools:
+Ou via CLI:
 
-- `akita_index` — tabela "quando consultar o quê".
-- `akita_guide(topic)` — guia completo de um tópico (`principios`, `testes`, `banco-sql`, …).
+```bash
+claude mcp add --transport http akita https://<host>/mcp \
+  --header "Authorization: Bearer <MCP_TOKEN>"
+```
+
+## Hospedar (Docker / Coolify)
+
+O servidor roda em http com auth Bearer obrigatória.
+
+```bash
+docker build -t mcp-conhecimento .
+docker run -p 3000:3000 -e MCP_TOKEN=<token-secreto> mcp-conhecimento
+# endpoint: http://localhost:3000/mcp  | health: http://localhost:3000/health
+```
+
+Variáveis de ambiente:
+
+| env | default | o quê |
+|---|---|---|
+| `MCP_TOKEN` | — (obrigatório em http) | token Bearer; sem ele em http o server **não sobe** |
+| `PACK` | `akita` | pack servido |
+| `TRANSPORT` | `http` (no Docker) | `http` ou `stdio` |
+| `PORT` | `3000` | porta http |
+
+**Coolify:** crie um recurso a partir deste repositório (build via Dockerfile), defina
+`MCP_TOKEN` como secret, exponha a porta `3000` e mapeie o domínio. O healthcheck usa `/health`.
+
+## Uso local via stdio (dev)
+
+```jsonc
+{
+  "mcpServers": {
+    "akita": {
+      "command": "node",
+      "args": ["/caminho/para/dist/index.js", "--pack=akita"]
+    }
+  }
+}
+```
 
 ## Tópicos do pack akita
 
